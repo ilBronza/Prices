@@ -1,0 +1,37 @@
+{
+    "name": "ilbronza/prices",
+    "description": ":package_description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Davide Bronzini",
+            "email": "davide@sistema.srl",
+            "homepage": "https://sistema.srl"
+        }
+    ],
+    "homepage": "https://github.com/ilbronza/prices",
+    "keywords": ["Laravel", "Prices"],
+    "require": {
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "IlBronza\\Prices\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IlBronza\\Prices\\PricesServiceProvider"
+            ],
+            "aliases": {
+                "Prices": "IlBronza\\Prices\\Facades\\Prices"
+            }
+        }
+    }
+}
