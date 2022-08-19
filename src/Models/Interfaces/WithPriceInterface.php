@@ -2,12 +2,16 @@
 
 namespace IlBronza\Prices\Models\Interfaces;
 
+use Carbon\Carbon;
 use IlBronza\Prices\Providers\PriceData;
 
 interface WithPriceInterface
 {
-	//must calculate the final price
-    public function calculatePriceData() : PriceData;
+    //must calculate the final price
+    public function _calculatePriceData(PriceData $priceData) : PriceData;
+
+    //must calculate the final price
+    public function _manageCalculationErrors(\Exception $e);
 
     //get first cost
     public function getCost();
@@ -26,4 +30,7 @@ interface WithPriceInterface
      * expl your current model is 172 but you need to use 34
      **/
     public function getPriceRelatedKey();
+
+    public function getValidFrom() : ? Carbon;
+    public function getValidTo() : ? Carbon;
 }

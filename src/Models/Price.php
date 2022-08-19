@@ -54,6 +54,11 @@ class Price extends BaseModel
 		];
 	}
 
+	public function element()
+	{
+		return $this->morphTo('priceable');
+	}
+
 	public function getPriceReplicateAttributes()
 	{
 		$attributes = $this->getPriceReplicateAttributesNames();
@@ -96,16 +101,30 @@ class Price extends BaseModel
 
 	public function canBeValid()
 	{
-		return $this->calculated;
+		return $this->calculated || ((! $this->calculated) && (! $this->calculated_at));
+
+		// return $this->calculated;
 		// return $this->calculated && ! $this->hasCalculatingErrorMessages();
 	}
 
-	public function getImposedPrice()
+	public function isCalculated() : bool
+	{
+		return !! $this->calculated;
+	}
+
+	public function getImposedPrice() : ? float
 	{
 		return $this->imposed_price;
 	}
 
+
+	///// DEPRECATED
 	public function getFinalPrice()
+	{
+		return $this->getPriceValue();
+	}
+
+	public function getPriceValue()
 	{
 		if($imposed = $this->getImposedPrice())
 			return $imposed;
@@ -134,5 +153,10 @@ class Price extends BaseModel
 		$result = $this->_prettyPrintTranslatedDataString($this->data);
 
 		return "<pre>" . json_encode($result, JSON_PRETTY_PRINT) . "</pre>";
+	}
+
+	public function getOwnCost()
+	{
+		return $this->own_cost;
 	}
 }

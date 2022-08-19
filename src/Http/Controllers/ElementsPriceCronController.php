@@ -56,66 +56,34 @@ abstract class ElementsPriceCronController extends Controller
 	public function getNewElementsToParse() : Collection
 	{
 		$elementsQuery = $this->elementQuery()
-				->whereHas('price', function($query)
-				{
-					return $query->toCalculate();
-					// return $query->where(function($_query)
-					// 	{
-					// 		return $_query->where('calculated', false)
-					// 					->orWhereNull('calculated');
-					// 	});
-					//->where('calculated_at', '>', $this->getCalculatedAtDate());
-				});
+				->with('priceToCalculate')
+				->whereHas('priceToCalculate');
 
 		return $this->getWithLimit($elementsQuery);
 	}
 
+	public function addValidations(WithPriceInterface $element)
+	{
+		if($validFrom = $this->getValidFrom($element))
+			$this->price->setValidFrom($validFrom);
 
-	// public function getElementsToParse(int $queryLimit = null)
-	// {
-	// 	$elementsClass = $this->getElementsClassName();
-
-	// 	$elementsQuery = $elementsClass::inRandomOrder()
-	// 			->with('manufacturer.manufacturerWaves', 'cardboard.wave')
-	// 			->doesntHave('price')
-	// 			->orWhereHas('price', function($query)
-	// 			{
-	// 				return $query->where(function($_query)
-	// 					{
-	// 						return $_query->where('calculated', false)
-	// 									->orWhereNull('calculated');	
-	// 					})->where('calculated_at', '>', $this->getCalculatedAtDate());
-	// 			});
-
-	// 	if($queryLimit)
-	// 		$elementsQuery->take($queryLimit);
-
-	// 	return $elementsQuery->get();
-	// }
-
-	// public function _parse()
-	// {
-	// 	$elements = $this->getElementsToParse();
-
-	// 	foreach($elements as $element)
-	// 	{
-	// 		$price = (new PriceCalculatorHelper($element));
-
-	// 		if($validFrom = $this->getValidFrom($element))
-	// 			$price->setValidFrom($validFrom);
-
-	// 		if($validTo = $this->getValidTo($element))
-	// 			$price->setValidTo($validTo);
-
-	// 		$price->calculate();
-	// 	}
-	// }
+		if($validTo = $this->getValidTo($element))
+			$this->price->setValidTo($validTo);
+	}
 
 	public function parseNew()
 	{
 		$elements = $this->getNewElementsToParse();
 
-		mori($elements);
+		foreach($elements as $element)
+		{
+			$this->price = (new PriceCalculatorHelper($element))
+					->setNewPrice($element->priceToCalculate);
+
+			$this->addValidations($element);
+
+			$this->price->calculate();
+		}
 	}
 
 	public function parseMissing()
@@ -124,15 +92,11 @@ abstract class ElementsPriceCronController extends Controller
 
 		foreach($elements as $element)
 		{
-			$price = (new PriceCalculatorHelper($element));
+			$this->price = (new PriceCalculatorHelper($element));
 
-			if($validFrom = $this->getValidFrom($element))
-				$price->setValidFrom($validFrom);
+			$this->addValidations($element);
 
-			if($validTo = $this->getValidTo($element))
-				$price->setValidTo($validTo);
-
-			$price->calculate();
-		}		
+			$this->price->calculate();
+		}
 	}
 }

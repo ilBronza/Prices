@@ -14,6 +14,9 @@ trait PriceHelpersPriceCreatorTrait
 	 **/
 	private function provideNewPrice() : Price
 	{
+		if(($this->currentPrice)&&(! $this->currentPrice->isCalculated()))
+			return $this->newPrice = $this->currentPrice;
+
 		if($this->newPrice = $this->replicateAndArchiveCurrentPrice())
 			return $this->newPrice;
 
