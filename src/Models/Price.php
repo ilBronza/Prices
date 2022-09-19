@@ -51,6 +51,7 @@ class Price extends BaseModel
 		return [
 			'priceable_type',
 			'priceable_id',
+			'imposed_price'
 		];
 	}
 
