@@ -71,7 +71,8 @@ abstract class ElementsPriceCronController extends Controller
 			$this->price->setValidTo($validTo);
 	}
 
-	public function parseNew()
+	// public function parseNew()
+	public function parseNewPrices()
 	{
 		$elements = $this->getNewElementsToParse();
 
