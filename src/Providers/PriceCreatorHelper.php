@@ -3,7 +3,6 @@
 namespace IlBronza\Prices\Providers;
 
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
-use IlBronza\Prices\Models\Price;
 
 use Auth;
 
@@ -56,7 +55,9 @@ class PriceCreatorHelper
 
 	public function createPrice() : Price
 	{
-		$this->price = Price::make();
+		$priceModelClass = config('prices.models.price');
+
+		$this->price = $priceModelClass::make();
 
 		$this->price->fill(
 			$this->element->getPriceBaseAttributes()
