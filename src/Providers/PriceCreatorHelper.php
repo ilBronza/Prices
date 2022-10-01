@@ -2,9 +2,9 @@
 
 namespace IlBronza\Prices\Providers;
 
-use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
-
 use Auth;
+use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
+use IlBronza\Prices\Models\Price;
 
 class PriceCreatorHelper
 {
@@ -53,11 +53,11 @@ class PriceCreatorHelper
 		$this->price->priceable_id = $this->element->getPriceRelatedKey();
 	}
 
-	private function makePrice() : Price
+	public function makePrice() : Price
 	{
 		$priceModelClass = config('prices.models.price');
 
-		return $this->makePrice() $priceModelClass::make();
+		return $priceModelClass::make();		
 	}
 
 	public function createPrice() : Price
