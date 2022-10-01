@@ -17,7 +17,7 @@ class PriceCreatorHelper
 
 	public function replicateAndArchivePrice(Price $price) : ? Price
 	{
-		$newPrice = Price::make();
+		$newPrice = $this->makePrice();
 
 		$newPrice->fill(
 			$this->element->getPriceReplicateAttributes($price)
@@ -53,11 +53,16 @@ class PriceCreatorHelper
 		$this->price->priceable_id = $this->element->getPriceRelatedKey();
 	}
 
-	public function createPrice() : Price
+	private function makePrice() : Price
 	{
 		$priceModelClass = config('prices.models.price');
 
-		$this->price = $priceModelClass::make();
+		return $this->makePrice() $priceModelClass::make();
+	}
+
+	public function createPrice() : Price
+	{
+		$this->price = $this->makePrice();
 
 		$this->price->fill(
 			$this->element->getPriceBaseAttributes()
