@@ -4,6 +4,9 @@ use IlBronza\Prices\Models\Price;
 
 return [
 	'models' => [
-		'price' => Price::class
+		'price' => [
+			'model' => Price::class,
+			'table' => 'prices'
+		]
 	]
 ];
