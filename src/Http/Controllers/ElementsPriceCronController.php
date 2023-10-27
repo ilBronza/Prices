@@ -19,6 +19,7 @@ abstract class ElementsPriceCronController extends Controller
 
 	public $queryLimit = 200;
 	public $calculatedAtDelaySeconds = 3600 * 24;
+	public $price;
 
 	public function getQuerylimit() : ? int
 	{
