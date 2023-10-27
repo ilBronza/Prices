@@ -9,7 +9,7 @@ use IlBronza\Prices\Models\Price;
 class PriceCreatorHelper
 {
 	public $element;
-	public $price;
+	public ? Price $price;
 
 	public function __construct(WithPriceInterface $element)
 	{
