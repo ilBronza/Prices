@@ -35,30 +35,15 @@ class PriceCreatorHelper
 		return $newPrice;
 	}
 
-	public function mustAssociateUser()
-	{
-		return Auth::user();
-	}
-
-	public function associateUser()
-	{
-		$user = Auth::user();
-
-		$this->price->created_by_type = get_class($user);
-		$this->price->created_by_id = $user->getKey();
-	}
-
 	public function associateElement()
 	{
-		$this->price->priceable_type = $this->element->getPriceRelatedClassName();
-		$this->price->priceable_id = $this->element->getPriceRelatedKey();
+		$this->price->element()->associate($this->element);
+		$this->price->save();
 	}
 
 	public function makePrice() : Price
 	{
-		$priceModelClass = config('prices.models.price');
-
-		return $priceModelClass::make();		
+		return Price::getProjectClassname()::make();
 	}
 
 	public function createPrice() : Price
@@ -68,9 +53,6 @@ class PriceCreatorHelper
 		$this->price->fill(
 			$this->element->getPriceBaseAttributes()
 		);
-
-		if($this->mustAssociateUser())
-			$this->associateUser();
 
 		$this->associateElement();
 

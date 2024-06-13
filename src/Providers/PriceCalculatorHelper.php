@@ -47,10 +47,10 @@ class PriceCalculatorHelper
 
 		$priceCalculator->setNewPrice($price);
 
-		if($validFrom = $price->element->getValidFrom($price->element))
+		if($validFrom = $price->element->getPriceValidityFrom($price->element))
 			$priceCalculator->setValidFrom($validFrom);
 
-		if($validTo = $price->element->getValidTo($price->element))
+		if($validTo = $price->element->getPriceValidityTo($price->element))
 			$priceCalculator->setValidTo($validTo);
 
 		$priceCalculator->ensureNewPriceModelExists();

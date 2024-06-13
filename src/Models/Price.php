@@ -7,15 +7,21 @@ use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\Model\CRUDCreatedByTrait;
 use IlBronza\CRUD\Traits\Model\CRUDModelsSequenceTrait;
 use IlBronza\CRUD\Traits\Model\CRUDValidityTrait;
+use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\MeasurementUnits\Models\MeasurementUnit;
 use Illuminate\Foundation\Auth\User;
 
 class Price extends BaseModel
 {
 	use CRUDValidityTrait;
 	use CRUDCreatedByTrait;
+	use PackagedModelsTrait;
 
 	use CRUDModelsSequenceTrait;
-	
+
+	static $packageConfigPrefix = 'prices';
+	static $modelConfigPrefix = 'price';
+
 	protected $fillable = [
 		'priceable_type',
 		'priceable_id',
@@ -58,6 +64,25 @@ class Price extends BaseModel
 	public function element()
 	{
 		return $this->morphTo('priceable');
+	}
+
+	public function measurementUnit()
+	{
+		return $this->belongsTo(MeasurementUnit::getProjectClassname());
+	}
+
+	public function setMeasurementUnit(string|MeasurementUnit $measurementUnit, bool $save = false) : static
+	{
+		if((is_string($measurementUnit))&&($savedString = $measurementUnit))
+			if(! $measurementUnit = MeasurementUnit::getProjectClassname()::findCachedField('name', $measurementUnit))
+				throw new \Exception('Measurement unit ' . $savedString . ' not found');
+
+		$this->measurementUnit()->associate($measurementUnit);
+
+		if($save)
+			$this->save();
+
+		return $this;
 	}
 
 	public function getPriceReplicateAttributes()
@@ -123,6 +148,11 @@ class Price extends BaseModel
 	public function getFinalPrice()
 	{
 		return $this->getPriceValue();
+	}
+
+	public function getPrice()
+	{
+		return $this->price;
 	}
 
 	public function getPriceValue()

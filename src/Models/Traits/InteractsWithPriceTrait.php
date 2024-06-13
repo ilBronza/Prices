@@ -41,9 +41,22 @@ trait InteractsWithPriceTrait
 		return $priceAttributes + $modelAttributes;
 	}
 
-	public function getMorphClass()
+	// public function getMorphClass()
+	// {
+	// 	return $this->getPriceRelatedClassName();
+	// }
+
+	public function directPrice()
 	{
-		return $this->getPriceRelatedClassName();
+		return $this->belongsTo(
+			$this->getPriceModelClassName(),
+			'price_id'
+		);
+	}
+
+	public function getDirectPrice() : ? Price
+	{
+		return $this->directPrice;
 	}
 
 	public function price()
@@ -86,6 +99,11 @@ trait InteractsWithPriceTrait
 	public function getPriceSequence()
 	{
 		return $this->getLastSequence() + 1 ;
+	}
+
+	public function getDirectPriceValue()
+	{
+		return $this->getDirectPrice()?->getPrice();
 	}
 
 	public function getPriceValue()
