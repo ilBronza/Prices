@@ -9,6 +9,7 @@ use IlBronza\CRUD\Traits\Model\CRUDModelsSequenceTrait;
 use IlBronza\CRUD\Traits\Model\CRUDValidityTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\MeasurementUnits\Models\MeasurementUnit;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
 class Price extends BaseModel
@@ -61,9 +62,40 @@ class Price extends BaseModel
 		];
 	}
 
+	public function getCollectionId()
+	{
+		return $this->collection_id;
+	}
+
+	public function getName() : ? string
+	{
+		if(! $collectionId = $this->getCollectionId())
+		{
+			if(! $measurementUnit = $this->getMeasurementUnitId())
+				return $this->price;
+
+			return "{$this->price}/{$measurementUnit}";
+		}
+
+		if(! $measurementUnit = $this->getMeasurementUnitId())
+			return "{$collectionId} {$this->price}";
+
+		return "{$collectionId} {$this->price}/{$measurementUnit}";
+	}
+
+	public function getMeasurementUnitId()
+	{
+		return $this->measurement_unit_id;
+	}
+
 	public function element()
 	{
 		return $this->morphTo('priceable');
+	}
+
+	public function getElement() : ? Model
+	{
+		return $this->element;
 	}
 
 	public function measurementUnit()

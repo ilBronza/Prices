@@ -2,30 +2,25 @@
 
 namespace IlBronza\Prices\Http\Controllers\Prices;
 
-use IlBronza\CRUD\CRUD;
-use IlBronza\CRUD\Traits\CRUDIndexTrait;
-use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
+use IlBronza\CRUD\Http\Controllers\Traits\PackageStandardIndexTrait;
+use IlBronza\Prices\Http\Controllers\Prices\PriceCRUD;
 
-class PriceIndexController extends CRUD
+class PriceIndexController extends PriceCRUD
 {
-    use CRUDPlainIndexTrait;
-    use CRUDIndexTrait;
+    use PackageStandardIndexTrait;
 
-    public $configModelClassName = 'price';
+    public $allowedMethods = ['index'];
 
-    public function getRouteBaseNamePrefix() : ? string
+    public function getIndexElementsRelationsArray() : array
     {
-        return config('products.routePrefix');
+        return [];
     }
 
-    public function setModelClass()
+    public function getIndexElements()
     {
-        $this->modelClass = config("prices.models.{$this->configModelClassName}.class");
-    }
+        ini_set('max_execution_time', '120');
+        ini_set('memory_limit', "-1");
 
-    public function getRelatedFieldsArray()
-    {
-        return config('prices.models.price.fieldsGroupsFiles.index')::getFieldsGroup();
+        return $this->getModelClass()::all();
     }
-
 }
