@@ -24,6 +24,7 @@ class Price extends BaseModel
 	static $modelConfigPrefix = 'price';
 
 	protected $fillable = [
+		'measurement_unit_id',
 		'priceable_type',
 		'priceable_id',
 		'own_cost',
@@ -65,6 +66,13 @@ class Price extends BaseModel
 	public function getCollectionId()
 	{
 		return $this->collection_id;
+	}
+
+	public function setCollectionId(string $collectionId) : self
+	{
+		$this->collection_id = $collectionId;
+
+		return $this;
 	}
 
 	public function getName() : ? string

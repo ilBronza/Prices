@@ -46,7 +46,7 @@ class PriceCreatorHelper
 		return Price::getProjectClassname()::make();
 	}
 
-	public function createPrice() : Price
+	public function createPrice(array $parameters = []) : Price
 	{
 		$this->price = $this->makePrice();
 

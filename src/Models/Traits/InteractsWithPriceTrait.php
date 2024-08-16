@@ -4,6 +4,7 @@ namespace IlBronza\Prices\Models\Traits;
 
 use Carbon\Carbon;
 use IlBronza\Prices\Models\Price;
+use IlBronza\Prices\Providers\PriceCreatorHelper;
 use IlBronza\Prices\Providers\PriceData;
 
 trait InteractsWithPriceTrait
@@ -31,6 +32,19 @@ trait InteractsWithPriceTrait
 		$priceData->calculatedAt = Carbon::now();
 
 		return $priceData;
+	}
+
+	public function providePriceByCollectionId(string $collectionId) : ? Price
+	{
+		if($result = $this->prices()->where('collection_id', $collectionId)->first())
+			return $result;
+
+		$price = (new PriceCreatorHelper($this))->createPrice();
+
+		$price->setCollectionId($collectionId);
+		$price->save();
+
+		return $price;
 	}
 
 	public function getPriceReplicateAttributes(Price $price)
