@@ -9,14 +9,14 @@ use IlBronza\Prices\Models\Price;
 class PriceCreatorHelper
 {
 	public $element;
-	public ? Price $price;
+	public ?Price $price;
 
 	public function __construct(WithPriceInterface $element)
 	{
 		$this->element = $element;
 	}
 
-	public function replicateAndArchivePrice(Price $price) : ? Price
+	public function replicateAndArchivePrice(Price $price) : ?Price
 	{
 		$newPrice = $this->makePrice();
 
@@ -27,7 +27,7 @@ class PriceCreatorHelper
 		$newPrice->setPreviousKey($price);
 		$newPrice->save();
 
-		if($price->isValid())
+		if ($price->isValid())
 			$price->setUnvalid();
 
 		$price->setNext($newPrice);
@@ -43,7 +43,7 @@ class PriceCreatorHelper
 
 	public function makePrice() : Price
 	{
-		return Price::getProjectClassname()::make();
+		return Price::getProjectClassName()::make();
 	}
 
 	public function createPrice(array $parameters = []) : Price

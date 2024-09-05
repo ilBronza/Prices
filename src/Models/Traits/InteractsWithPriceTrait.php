@@ -7,9 +7,26 @@ use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCreatorHelper;
 use IlBronza\Prices\Providers\PriceData;
 
+use function array_filter;
+use function strpos;
+
 trait InteractsWithPriceTrait
 {
-	abstract function getPriceModelClassName() : string;
+	public function getPriceModelClassName() : string
+	{
+		return Price::getProjectClassName();
+	}
+
+	public function getPriceExtraFieldsCasts() : array
+	{
+		return array_filter($this->getCasts(), function ($item)
+		{
+			if (strpos($item, 'CastFieldPrice') !== false)
+				return true;
+
+			return false;
+		});
+	}
 
 	public function calculatePriceData() : PriceData
 	{
@@ -36,13 +53,23 @@ trait InteractsWithPriceTrait
 
 	public function providePriceByCollectionId(string $collectionId) : ? Price
 	{
-		if($result = $this->prices()->where('collection_id', $collectionId)->first())
+		if($this->relationLoaded('prices'))
+			if($price = $this->prices->where('collection_id', $collectionId)->first())
+				return $price;
+
+		if($result = $this->prices()->where('collection_id', $collectionId)->latest()->first())
+		{
+			$this->setRelation($collectionId, $result);
+
 			return $result;
+		}
 
 		$price = (new PriceCreatorHelper($this))->createPrice();
 
 		$price->setCollectionId($collectionId);
 		$price->save();
+
+		$this->setRelation($collectionId, $price);
 
 		return $price;
 	}

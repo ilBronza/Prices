@@ -75,17 +75,17 @@ class Price extends BaseModel
 		return $this;
 	}
 
-	public function getName() : ? string
+	public function getName() : ?string
 	{
-		if(! $collectionId = $this->getCollectionId())
+		if (! $collectionId = $this->getCollectionId())
 		{
-			if(! $measurementUnit = $this->getMeasurementUnitId())
+			if (! $measurementUnit = $this->getMeasurementUnitId())
 				return $this->price;
 
 			return "{$this->price}/{$measurementUnit}";
 		}
 
-		if(! $measurementUnit = $this->getMeasurementUnitId())
+		if (! $measurementUnit = $this->getMeasurementUnitId())
 			return "{$collectionId} {$this->price}";
 
 		return "{$collectionId} {$this->price}/{$measurementUnit}";
@@ -101,25 +101,25 @@ class Price extends BaseModel
 		return $this->morphTo('priceable');
 	}
 
-	public function getElement() : ? Model
+	public function getElement() : ?Model
 	{
 		return $this->element;
 	}
 
 	public function measurementUnit()
 	{
-		return $this->belongsTo(MeasurementUnit::getProjectClassname());
+		return $this->belongsTo(MeasurementUnit::getProjectClassName());
 	}
 
 	public function setMeasurementUnit(string|MeasurementUnit $measurementUnit, bool $save = false) : static
 	{
-		if((is_string($measurementUnit))&&($savedString = $measurementUnit))
-			if(! $measurementUnit = MeasurementUnit::getProjectClassname()::findCachedField('name', $measurementUnit))
+		if ((is_string($measurementUnit)) && ($savedString = $measurementUnit))
+			if (! $measurementUnit = MeasurementUnit::getProjectClassName()::findCachedField('name', $measurementUnit))
 				throw new \Exception('Measurement unit ' . $savedString . ' not found');
 
 		$this->measurementUnit()->associate($measurementUnit);
 
-		if($save)
+		if ($save)
 			$this->save();
 
 		return $this;
@@ -142,6 +142,11 @@ class Price extends BaseModel
 		return $query->whereBooleanNotTrue('calculated');
 	}
 
+	public function scopeByCollection($query, string $collectionId)
+	{
+		return $query->where('collection_id', $collectionId);
+	}
+
 	public function getSequence()
 	{
 		return $this->sequence;
@@ -149,7 +154,7 @@ class Price extends BaseModel
 
 	public function getSequenceAttribute($value)
 	{
-		if(is_null($value))
+		if (is_null($value))
 			return 0;
 
 		return $value;
@@ -162,7 +167,7 @@ class Price extends BaseModel
 
 	public function hasCalculatingErrorMessages()
 	{
-		return !! $this->getMessage();
+		return ! ! $this->getMessage();
 	}
 
 	public function canBeValid()
@@ -175,14 +180,13 @@ class Price extends BaseModel
 
 	public function isCalculated() : bool
 	{
-		return !! $this->calculated;
+		return ! ! $this->calculated;
 	}
 
-	public function getImposedPrice() : ? float
+	public function getImposedPrice() : ?float
 	{
 		return $this->imposed_price;
 	}
-
 
 	///// DEPRECATED
 	public function getFinalPrice()
@@ -195,9 +199,20 @@ class Price extends BaseModel
 		return $this->price;
 	}
 
+	public function getPriceDescriptionString()
+	{
+		if ($string = $this->getCollectionId())
+			$string .= ' ';
+
+		if (! $this->getMeasurementUnitId())
+			return $string . $this->getPrice() . '€/';
+
+		return $string . $this->getPrice() . '€/' . $this->getMeasurementUnitId();
+	}
+
 	public function getPriceValue()
 	{
-		if($imposed = $this->getImposedPrice())
+		if ($imposed = $this->getImposedPrice())
 			return $imposed;
 
 		return $this->price;
@@ -205,12 +220,12 @@ class Price extends BaseModel
 
 	public function _prettyPrintTranslatedDataString($data)
 	{
-		if(! is_array($data))
+		if (! is_array($data))
 			return $data;
 
 		$result = [];
 
-		foreach($data as $name => $parameters)
+		foreach ($data as $name => $parameters)
 			$result[__('prices.fields' . $name)] = $this->_prettyPrintTranslatedDataString($parameters);
 
 		return $result;
@@ -218,8 +233,8 @@ class Price extends BaseModel
 
 	public function prettyPrintTranslatedDataString()
 	{
-		if(! $this->data)
-			return ;
+		if (! $this->data)
+			return;
 
 		$result = $this->_prettyPrintTranslatedDataString($this->data);
 
