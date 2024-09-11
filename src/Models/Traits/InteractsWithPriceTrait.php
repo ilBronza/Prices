@@ -51,7 +51,7 @@ trait InteractsWithPriceTrait
 		return $priceData;
 	}
 
-	public function providePriceByCollectionId(string $collectionId) : ? Price
+	public function getPriceByCollectionId(string $collectionId) : ? Price
 	{
 		if($this->relationLoaded('prices'))
 			if($price = $this->prices->where('collection_id', $collectionId)->first())
@@ -63,6 +63,14 @@ trait InteractsWithPriceTrait
 
 			return $result;
 		}
+
+		return null;
+	}
+
+	public function providePriceByCollectionId(string $collectionId) : ? Price
+	{
+		if($price = $this->getPriceByCollectionId($collectionId))
+			return $price;
 
 		$price = (new PriceCreatorHelper($this))->createPrice();
 
