@@ -2,6 +2,8 @@
 
 namespace IlBronza\Prices;
 
+use IlBronza\Prices\Models\Price;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class PricesServiceProvider extends ServiceProvider
@@ -13,7 +15,12 @@ class PricesServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ilbronza');
+	    Relation::morphMap([
+		    'Price' => Price::gpc(),
+	    ]);
+
+
+	    // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ilbronza');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'ilbronza');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
