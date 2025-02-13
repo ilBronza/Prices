@@ -54,8 +54,12 @@ trait InteractsWithPriceTrait
 	public function getPriceByCollectionId(string $collectionId) : ? Price
 	{
 		if($this->relationLoaded('prices'))
+		{
 			if($price = $this->prices->where('collection_id', $collectionId)->first())
 				return $price;
+
+			return null;
+		}
 
 		if($result = $this->prices()->where('collection_id', $collectionId)->latest()->first())
 		{

@@ -20,6 +20,8 @@ class Price extends BaseModel
 
 	use CRUDModelsSequenceTrait;
 
+	static $deletingRelationships = [];
+
 	static $packageConfigPrefix = 'prices';
 	static $modelConfigPrefix = 'price';
 
@@ -75,9 +77,17 @@ class Price extends BaseModel
 		return $this;
 	}
 
-	public function getName() : ?string
+	public function getTranslatedCollectionId() : ? string
 	{
 		if (! $collectionId = $this->getCollectionId())
+			return null;
+
+		return trans('prices::prices.' . $collectionId);
+	}
+
+	public function getName() : ?string
+	{
+		if (! $collectionId = $this->getTranslatedCollectionId())
 		{
 			if (! $measurementUnit = $this->getMeasurementUnitId())
 				return $this->price;
@@ -201,7 +211,7 @@ class Price extends BaseModel
 
 	public function getPriceDescriptionString()
 	{
-		if ($string = $this->getCollectionId())
+		if ($string = $this->getTranslatedCollectionId())
 			$string .= ' ';
 
 		if (! $this->getMeasurementUnitId())
