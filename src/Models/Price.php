@@ -43,17 +43,14 @@ class Price extends BaseModel
 		'priceable_id'
 	];
 
-	protected $dates = [
-		'deleted_at',
-		'calculated_at',
-		'valid_from',
-		'valid_to',
-		'validated_at',
-		'unvalidated_at'
-	];
-
 	protected $casts = [
 		'data' => 'array',
+		'deleted_at' => 'datetime',
+		'calculated_at' => 'datetime',
+		'valid_from' => 'datetime',
+		'valid_to' => 'datetime',
+		'validated_at' => 'datetime',
+		'unvalidated_at' => 'datetime'
 	];
 
 	public function getPriceReplicateAttributesNames()
