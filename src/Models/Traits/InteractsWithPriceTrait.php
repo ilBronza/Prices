@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCreatorHelper;
 use IlBronza\Prices\Providers\PriceData;
+use Illuminate\Support\Collection;
 
 use function array_filter;
+use function dd;
 use function strpos;
 
 trait InteractsWithPriceTrait
@@ -136,6 +138,11 @@ trait InteractsWithPriceTrait
 		);
 	}
 
+	public function getPrices() : Collection
+	{
+		return $this->prices;
+	}
+
 	public function getCurrentPrice()
 	{
 		return $this->price ?? $this->priceToCalculate;
@@ -165,5 +172,15 @@ trait InteractsWithPriceTrait
 			return null;
 
 		return $this->price->getPriceValue();
+	}
+
+
+	public function setPriceByCollectionId(string $collectionId, float $value = null)
+	{
+		$price = $this->providePriceByCollectionId($collectionId);
+
+		$price->price = $value;
+
+		$price->saveQuietly();
 	}
 }
