@@ -13,8 +13,8 @@ class AddCollectionFieldToPricesTable extends Migration
      */
     public function up()
     {
-        if(! config('prices.enabled', false))
-            return false;
+        // if(! config('prices.enabled', false))
+        //     return false;
 
         Schema::table(config('prices.models.price.table'), function (Blueprint $table)
         {

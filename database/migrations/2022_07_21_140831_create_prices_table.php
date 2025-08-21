@@ -13,7 +13,7 @@ class CreatePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create(config('prices.models.price.table'), function (Blueprint $table) {
             $table->id();
 
             $table->nullableMorphs('priceable');

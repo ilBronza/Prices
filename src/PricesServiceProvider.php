@@ -20,7 +20,7 @@ class PricesServiceProvider extends ServiceProvider
 	    ]);
 
 
-	    // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ilbronza');
+	    $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'prices');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'ilbronza');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 	    $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'prices');

@@ -2,7 +2,7 @@
 
 namespace IlBronza\Prices\Http\Controllers\Prices;
 
-use IlBronza\CRUD\Http\Controllers\Traits\PackageStandardIndexTrait;
+use IlBronza\CRUD\Http\Controllers\Traits\StandardTraits\PackageStandardIndexTrait;
 use IlBronza\Prices\Http\Controllers\Prices\PriceCRUD;
 
 class PriceIndexController extends PriceCRUD

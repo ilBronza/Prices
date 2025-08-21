@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCreatorHelper;
 use IlBronza\Prices\Providers\PriceData;
+use IlBronza\Ukn\Ukn;
 use Illuminate\Support\Collection;
-
 use function array_filter;
 use function dd;
 use function strpos;
@@ -84,6 +84,8 @@ trait InteractsWithPriceTrait
 		$price->save();
 
 		$this->setRelation($collectionId, $price);
+
+		Ukn::s('creato prezzo ' . $collectionId . ' per ' . $this->getName());
 
 		return $price;
 	}
