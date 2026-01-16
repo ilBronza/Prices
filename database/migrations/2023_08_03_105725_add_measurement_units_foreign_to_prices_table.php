@@ -13,9 +13,6 @@ class AddMeasurementUnitsForeignToPricesTable extends Migration
      */
     public function up()
     {
-        if(! config('prices.enabled', false))
-            return false;
-
         Schema::table(config('prices.models.price.table'), function (Blueprint $table) {
 
             $table->string('measurement_unit_id', 16)->nullable();

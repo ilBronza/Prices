@@ -13,9 +13,6 @@ class AddCollectionFieldToPricesTable extends Migration
      */
     public function up()
     {
-        // if(! config('prices.enabled', false))
-        //     return false;
-
         Schema::table(config('prices.models.price.table'), function (Blueprint $table)
         {
             $table->string('collection_id', 32)->nullable();

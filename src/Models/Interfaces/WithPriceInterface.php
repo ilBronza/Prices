@@ -19,6 +19,9 @@ interface WithPriceInterface
     //get new price model base attributes to fill the price before its calculated
     public function getPriceBaseAttributes();
 
+	public function mustAutomaticallyUpdatePrices() : bool;
+
+	static public function bootUpdatePricesOnSaveTrait();
 
     /**
      * example

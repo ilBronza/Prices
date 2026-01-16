@@ -11,6 +11,10 @@ use IlBronza\Prices\Http\Controllers\Prices\PriceShowController;
 use IlBronza\Prices\Models\Price;
 
 return [
+	'datatableFieldWidths' => [
+		'datatableFieldPricesList' => '12em'
+
+	],
 	'models' => [
 		'price' => [
 			'class' => Price::class,
