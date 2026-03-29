@@ -18,7 +18,7 @@ class AddMeasurementUnitsForeignToPricesTable extends Migration
             $table->string('measurement_unit_id', 16)->nullable();
             $table->foreign('measurement_unit_id')
                     ->references('id')
-                    ->on(config('measurementUnits.models.measurementUnit.table'));
+                    ->on(config('measurementunits.models.measurementUnit.table'));
 
             $table->unsignedBigInteger('quantity_from')->nullable();
             $table->unsignedBigInteger('quantity_to')->nullable();

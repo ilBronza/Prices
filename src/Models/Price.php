@@ -115,13 +115,13 @@ class Price extends BaseModel
 
 	public function measurementUnit()
 	{
-		return $this->belongsTo(MeasurementUnit::getProjectClassName());
+		return $this->belongsTo(MeasurementUnit::gpc());
 	}
 
 	public function setMeasurementUnit(string|MeasurementUnit $measurementUnit, bool $save = false) : static
 	{
 		if ((is_string($measurementUnit)) && ($savedString = $measurementUnit))
-			if (! $measurementUnit = MeasurementUnit::getProjectClassName()::findCachedField('name', $measurementUnit))
+			if (! $measurementUnit = MeasurementUnit::gpc()::findCachedField('name', $measurementUnit))
 				throw new \Exception('Measurement unit ' . $savedString . ' not found');
 
 		$this->measurementUnit()->associate($measurementUnit);
