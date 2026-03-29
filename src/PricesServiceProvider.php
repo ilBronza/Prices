@@ -2,6 +2,7 @@
 
 namespace IlBronza\Prices;
 
+use IlBronza\Prices\Http\Middleware\PricesMiddlewareRolesPermissions;
 use IlBronza\Prices\Models\Price;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +28,8 @@ class PricesServiceProvider extends ServiceProvider
 
         if (app() instanceof \Illuminate\Foundation\Application)
             $this->loadRoutesFrom(__DIR__.'/routes/prices.php');
+
+        $this->app['router']->aliasMiddleware('prices.roles', PricesMiddlewareRolesPermissions::class);
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {

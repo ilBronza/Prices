@@ -1,7 +1,7 @@
 <?php
 
 Route::group([
-	'middleware' => ['web', 'auth'],
+	'middleware' => ['web', 'auth', 'prices.roles'],
 	'prefix' => 'prices-manager',
 	'namespace' => 'IlBronza\Prices\Http\Controllers'
 ], function()
@@ -11,7 +11,7 @@ Route::group([
 
 
 Route::group([
-	'middleware' => ['web', 'auth'],
+	'middleware' => ['web', 'auth', 'prices.roles'],
 	'prefix' => 'prices-management',
 	'as' => config('prices.routePrefix')
 	],

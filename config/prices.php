@@ -11,6 +11,17 @@ use IlBronza\Prices\Http\Controllers\Prices\PriceShowController;
 use IlBronza\Prices\Models\Price;
 
 return [
+	'routePrefix' => 'ibPrices',
+
+	'defaultRoles' => [
+		'superadmin',
+		'administrator',
+		'prices',
+	],
+
+	'routeRoles' => [
+	],
+
 	'datatableFieldWidths' => [
 		'datatableFieldPricesList' => '12em'
 
