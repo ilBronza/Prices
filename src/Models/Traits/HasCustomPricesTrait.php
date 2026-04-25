@@ -21,10 +21,10 @@ trait HasCustomPricesTrait
 	//		$price->saveQuietly();
 	//	}
 
-	public function _calculatePriceData(PriceData $priceData) : PriceData
-	{
-		dd('risolvere');
-	}
+	// public function _calculatePriceData(PriceData $priceData) : PriceData
+	// {
+	// 	dd('risolvere');
+	// }
 
 	//must calculate the final price
 

@@ -8,7 +8,7 @@ use IlBronza\Prices\Providers\PriceData;
 interface WithPriceInterface
 {
     //must calculate the final price
-    public function _calculatePriceData(PriceData $priceData) : PriceData;
+    // public function _calculatePriceData(PriceData $priceData) : PriceData;
 
     //must calculate the final price
     public function _manageCalculationErrors(\Exception $e);
@@ -19,9 +19,9 @@ interface WithPriceInterface
     //get new price model base attributes to fill the price before its calculated
     public function getPriceBaseAttributes();
 
-	public function mustAutomaticallyUpdatePrices() : bool;
+	public function mustAutomaticallyUpdatePrices() : ? bool;
 
-	static public function bootUpdatePricesOnSaveTrait();
+	// static public function bootUpdatePricesOnSaveTrait();
 
     /**
      * example

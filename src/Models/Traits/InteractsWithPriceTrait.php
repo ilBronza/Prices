@@ -176,13 +176,15 @@ trait InteractsWithPriceTrait
 		return $this->price->getPriceValue();
 	}
 
-
-	public function setPriceByCollectionId(string $collectionId, float $value = null)
+	public function setPriceByCollectionId(string $collectionId, float $value = null, string $measurementUnit = null)
 	{
 		$price = $this->providePriceByCollectionId($collectionId);
 
-		$price->price = $value;
+		if(($price->price == $value)&&($price->measurement_unit_id == $measurementUnit))
+			return ;
 
-		$price->saveQuietly();
+		$price->price = $value;
+		$price->measurement_unit_id = $measurementUnit;
+		$price->save();
 	}
 }
