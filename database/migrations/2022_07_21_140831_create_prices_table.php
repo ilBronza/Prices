@@ -22,10 +22,10 @@ class CreatePricesTable extends Migration
             $table->unsignedInteger('sequence')->nullable();
 
             $table->unsignedBigInteger('previous_id')->nullable();
-            $table->foreign('previous_id')->references('id')->on('prices');
+            $table->foreign('previous_id')->references('id')->on(config('prices.models.price.table'));
 
             $table->unsignedBigInteger('next_id')->nullable();
-            $table->foreign('next_id')->references('id')->on('prices');
+            $table->foreign('next_id')->references('id')->on(config('prices.models.price.table'));
 
             $table->float('own_cost')->nullable();
             $table->float('cost')->nullable();
@@ -58,6 +58,6 @@ class CreatePricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists(config('prices.models.price.table'));
     }
 }
