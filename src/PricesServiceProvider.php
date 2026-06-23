@@ -27,7 +27,7 @@ class PricesServiceProvider extends ServiceProvider
 	    $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'prices');
 
         if (app() instanceof \Illuminate\Foundation\Application)
-            $this->loadRoutesFrom(__DIR__.'/routes/prices.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/prices.php');
 
         $this->app['router']->aliasMiddleware('prices.roles', PricesMiddlewareRolesPermissions::class);
 
