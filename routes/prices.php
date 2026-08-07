@@ -1,5 +1,7 @@
 <?php
 
+use IlBronza\Prices\Prices;
+
 Route::group([
 	'middleware' => ['web', 'auth', 'prices.roles'],
 	'prefix' => 'prices-manager',
@@ -13,7 +15,8 @@ Route::group([
 Route::group([
 	'middleware' => ['web', 'auth', 'prices.roles'],
 	'prefix' => 'prices-management',
-	'as' => config('prices.routePrefix')
+	'as' => config('prices.routePrefix'),
+	'routeTranslationPrefix' => Prices::getRouteTranslationPrefix(),
 	],
 	function()
 	{
