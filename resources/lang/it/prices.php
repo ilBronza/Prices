@@ -5,5 +5,8 @@ return [
 	'createdFor' => 'Prezzo creato per :model',
 	'cost_per_km' => 'Distanza',
 	'cost_per_movimentation' => 'Movimentazione',
-	'cost_per_day' => 'Giorno'
+	'cost_per_day' => 'Giorno',
+    'price' => 'Prezzo',
+    'cardTitleCreate' => 'Crea prezzo',
+    'cardIntroCreate' => 'Compila i dati e salva per completare la creazione.',
 ];

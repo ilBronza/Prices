@@ -8,4 +8,6 @@ return [
 	'ibPricespricesshow' => 'Mostra ib pricesprices :model',
 	'ibPricespricesstore' => 'Salva ib pricesprices',
 	'ibPricespricesupdate' => 'Aggiorna ib pricesprices',
+    'ibPricesprices.index' => 'Prezzi',
+    'ibPricesprices.create' => 'Crea prezzo',
 ];
